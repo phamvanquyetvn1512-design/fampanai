@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FampanAI — AI Content Automation Suite for Creators & Sellers</title>
+<meta name="description" content="FampanAI is an AI content automation suite: automatic video creation from images and scripts, AI image generation, YouTube competitor analysis, quizzes, marble racing and movie review tools.">
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#111830; --card:#151d38; --line:#24305a;
+    --text:#eef1ff; --muted:#a7b0d4; --accent:#6c7cff; --accent2:#38e0c8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+  a{color:var(--accent2);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  header{position:sticky;top:0;background:rgba(11,16,32,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:50}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:14px}
+  .logo{font-size:24px;font-weight:800;letter-spacing:.5px;white-space:nowrap}
+  .logo span{color:var(--accent)}
+  .nav nav a{color:var(--muted);margin-left:18px;font-size:15px}
+  .nav nav a:hover{color:var(--text)}
+  /* Language selector */
+  .langsel{position:relative}
+  .langbtn{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer;font-size:14px}
+  .langbtn img{width:22px;height:16px;border-radius:3px;object-fit:cover}
+  .langlist{position:absolute;right:0;top:calc(100% + 8px);background:var(--bg2);border:1px solid var(--line);border-radius:12px;min-width:190px;padding:6px;display:none;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .langlist.open{display:block}
+  .langlist button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:var(--text);padding:9px 10px;border-radius:8px;cursor:pointer;font-size:14px;text-align:left}
+  .langlist button:hover{background:var(--card)}
+  .langlist img{width:22px;height:16px;border-radius:3px;object-fit:cover}
+  .hero{padding:84px 0 64px;text-align:center;background:radial-gradient(720px 340px at 50% -60px,rgba(108,124,255,.28),transparent 70%)}
+  .badge{display:inline-block;border:1px solid var(--line);background:var(--bg2);color:var(--accent2);padding:5px 14px;border-radius:999px;font-size:13px;margin-bottom:22px}
+  h1{font-size:44px;line-height:1.15;font-weight:800;max-width:840px;margin:0 auto 18px}
+  h1 em{font-style:normal;color:var(--accent)}
+  .sub{color:var(--muted);font-size:18px;max-width:680px;margin:0 auto 32px}
+  .cta{display:inline-block;background:var(--accent);color:#fff;font-weight:700;padding:14px 32px;border-radius:10px;font-size:16px}
+  .cta:hover{background:#5a6bf0}
+  .cta2{display:inline-block;border:1px solid var(--line);color:var(--text);padding:14px 26px;border-radius:10px;font-size:16px;margin-left:10px}
+  section{padding:64px 0}
+  h2{font-size:30px;text-align:center;margin-bottom:12px}
+  .lead{text-align:center;color:var(--muted);max-width:640px;margin:0 auto 40px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px}
+  .card .ico{font-size:28px;margin-bottom:12px}
+  .card h3{font-size:18px;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:15px}
+  .card .tag{display:inline-block;margin-top:12px;font-size:12px;color:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+  .step{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .step b{display:block;font-size:15px;margin-bottom:6px;color:var(--accent2)}
+  .step p{color:var(--muted);font-size:15px}
+  .stats{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 40px;text-align:center;min-width:220px}
+  .stat .num{font-size:34px;font-weight:800;color:var(--accent)}
+  .stat .lbl{color:var(--muted);font-size:14px}
+  /* World clock */
+  .clocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+  .clock{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+  .clock img{width:34px;height:25px;border-radius:4px;object-fit:cover}
+  .clock .city{font-weight:700;font-size:15px;margin-top:8px}
+  .clock .time{font-size:24px;font-weight:800;color:var(--accent2);font-variant-numeric:tabular-nums;margin:2px 0}
+  .clock .date{color:var(--muted);font-size:12px}
+  .join{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center}
+  form{max-width:460px;margin:24px auto 0;display:flex;gap:10px}
+  input[type=email]{flex:1;padding:13px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:15px}
+  .jbtn{background:var(--accent);color:#fff;border:none;font-weight:700;padding:13px 22px;border-radius:10px;cursor:pointer;font-size:15px}
+  .contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;max-width:900px;margin:0 auto}
+  .ccard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
+  .ccard .ico{font-size:26px;margin-bottom:10px}
+  .ccard h3{font-size:16px;margin-bottom:6px}
+  .ccard p,.ccard a{color:var(--muted);font-size:15px;word-break:break-all}
+  .ccard a:hover{color:var(--accent2)}
+  .pay{display:inline-block;margin-top:10px;background:#0070ba;color:#fff;font-weight:700;padding:10px 22px;border-radius:8px;font-size:14px}
+  footer{padding:40px 0;text-align:center;color:var(--muted);font-size:14px}
+  footer a{margin:0 10px}
+  @media(max-width:700px){h1{font-size:31px} form{flex-direction:column} .nav nav{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">Fampan<span>AI</span></div>
+    <nav>
+      <a href="#products" data-i18n="nav_products">Products</a>
+      <a href="#how" data-i18n="nav_how">How it works</a>
+      <a href="#traction" data-i18n="nav_traction">Traction</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <div class="langsel">
+      <button class="langbtn" id="langBtn" onclick="toggleLangList(event)">
+        <img id="curFlag" src="https://flagcdn.com/w40/us.png" alt="">
+        <span id="curLang">English</span> ▾
+      </button>
+      <div class="langlist" id="langList"></div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="badge" data-i18n="badge">🚀 AI Content Automation Suite — Private Beta</div>
+    <h1 data-i18n-html="h1">From idea to <em>finished video</em>, automatically</h1>
+    <p class="sub" data-i18n="sub">FampanAI is a suite of AI-powered tools that helps creators and online sellers produce videos, images and interactive content at scale — from script writing to a publish-ready file.</p>
+    <a class="cta" href="#join" data-i18n="cta1">Join the waitlist</a>
+    <a class="cta2" href="#products" data-i18n="cta2">Explore the tools</a>
+  </div>
+</div>
+
+<section id="products">
+  <div class="wrap">
+    <h2 data-i18n="productsH">Our product suite</h2>
+    <p class="lead" data-i18n="productsLead">Seven specialized tools, one goal: automate content production end to end.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🎬</div><h3>AI Video Studio</h3><p data-i18n="p1d">Creates complete videos automatically from images and a script: scene timing from SRT files, realistic ambient sound per scene, background music and voiceover assembly.</p><span class="tag" data-i18n="p1t">Core product</span></div>
+      <div class="card"><div class="ico">🖼️</div><h3>Flow Image Creator</h3><p data-i18n="p2d">A browser extension that automates AI image generation on Google Flow: batch prompts, consistent characters, and one-click result collection for video production.</p><span class="tag" data-i18n="p2t">Chrome extension</span></div>
+      <div class="card"><div class="ico">📊</div><h3>YouTube Competitor Analyzer</h3><p data-i18n="p3d">Analyzes competing YouTube channels and videos — titles, transcripts, publishing patterns — and turns the data into actionable content strategy.</p><span class="tag" data-i18n="p3t">Analytics</span></div>
+      <div class="card"><div class="ico">❓</div><h3>Quiz &amp; Trivia Maker</h3><p data-i18n="p4d">Generates interactive quiz and trivia videos with questions, answers, timing and voiceover for education and entertainment channels.</p><span class="tag" data-i18n="p4t">Interactive content</span></div>
+      <div class="card"><div class="ico">🏁</div><h3>Marble Racing World</h3><p data-i18n="p5d">Simulates world marble racing tournaments with physics-based tracks, commentary and tournament brackets for entertainment content.</p><span class="tag" data-i18n="p5t">Entertainment</span></div>
+      <div class="card"><div class="ico">🎞️</div><h3>Movie Review Studio</h3><p data-i18n="p6d">Assists movie review production: scene extraction, script drafting and review video assembly for film channels.</p><span class="tag" data-i18n="p6t">Review content</span></div>
+      <div class="card"><div class="ico">🌐</div><h3>Browser Profile Manager</h3><p data-i18n="p7d">Manages multiple browser profiles and connections so creators can run large-scale, organized content workflows across accounts and platforms.</p><span class="tag" data-i18n="p7t">Infrastructure</span></div>
+      <div class="card"><div class="ico">✍️</div><h3>Claude Script Engine</h3><p data-i18n="p8d">Claude API turns raw ideas and sales articles into scene-by-scene scripts with SRT timing, image prompts, titles and hashtags for publishing.</p><span class="tag" data-i18n="p8t">Powered by Claude</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <h2 data-i18n="howH">How it works</h2>
+    <p class="lead" data-i18n="howLead">The flagship pipeline: idea → video in four steps.</p>
+    <div class="steps">
+      <div class="step"><b data-i18n="s1t">STEP 1 — Input</b><p data-i18n="s1d">An idea, a product description, or your own images and script.</p></div>
+      <div class="step"><b data-i18n="s2t">STEP 2 — Claude plans</b><p data-i18n="s2d">Claude API writes the scene-by-scene script, SRT timings and image prompts.</p></div>
+      <div class="step"><b data-i18n="s3t">STEP 3 — Generation</b><p data-i18n="s3d">Images are generated or animated, with realistic ambient sound for each scene.</p></div>
+      <div class="step"><b data-i18n="s4t">STEP 4 — Assembly</b><p data-i18n="s4d">The final video is rendered with music and timing locked to the script — ready to publish.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="traction" style="padding-top:0">
+  <div class="wrap">
+    <h2 data-i18n="tractionH">Built and tested on real channels</h2>
+    <p class="lead" data-i18n="tractionLead">Every tool is developed and used in production for our own audience before public release.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">230K</div><div class="lbl"><span data-i18n="stat1">YouTube subscribers — e-commerce tutorials</span><br><a href="https://www.youtube.com/@Mr.FamPan" target="_blank">@Mr.FamPan</a></div></div>
+      <div class="stat"><div class="num">230K</div><div class="lbl"><span data-i18n="stat2">TikTok followers — short-form video</span><br><a href="https://www.tiktok.com/@phamquyet15121" target="_blank">@phamquyet15121</a></div></div>
+      <div class="stat"><div class="num">7</div><div class="lbl" data-i18n="stat3">production tools in active internal use</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="clock" style="padding-top:0">
+  <div class="wrap">
+    <h2 data-i18n="clockH">World clock — real time</h2>
+    <p class="lead" data-i18n="clockLead">Live time in our main markets around the world.</p>
+    <div class="clocks" id="clocks"></div>
+  </div>
+</section>
+
+<section id="join" class="join">
+  <div class="wrap">
+    <h2 data-i18n="joinH">Get early access</h2>
+    <p class="lead" style="margin-bottom:0" data-i18n="joinLead">We are opening a limited beta for creators and online sellers. Leave your email to join the waitlist.</p>
+    <form id="joinForm" onsubmit="event.preventDefault();this.innerHTML='<p style=&quot;color:var(--accent2);font-weight:700&quot; data-i18n=&quot;thanks&quot;>'+T[cur].thanks+'</p>';">
+      <input type="email" required id="emailPh" placeholder="Your email address">
+      <button class="jbtn" type="submit" data-i18n="joinBtn">Join waitlist</button>
+    </form>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2 data-i18n="contactH">Contact us</h2>
+    <p class="lead" data-i18n="contactLead">Questions, partnerships or beta access — reach us anytime.</p>
+    <div class="contact">
+      <div class="ccard"><div class="ico">✉️</div><h3 data-i18n="cEmail">Email</h3><p><a href="mailto:phamvanquyet.vn.1512@gmail.com">phamvanquyet.vn.1512@gmail.com</a></p></div>
+      <div class="ccard"><div class="ico">💬</div><h3>WhatsApp / Zalo</h3><p><a href="https://wa.me/84372569504" target="_blank">+84 372 569 504</a></p></div>
+      <div class="ccard"><div class="ico">📱</div><h3 data-i18n="cPhone">Phone</h3><p><a href="tel:+84372569504">+84 372 569 504</a></p></div>
+      <div class="ccard"><div class="ico">💳</div><h3 data-i18n="cPay">Payments</h3><p data-i18n="cPayD">Secure checkout via PayPal</p><a class="pay" href="https://www.paypal.com/ncp/payment/5Q3R9XH3NUM88" target="_blank" data-i18n="cPayB">Pay with PayPal</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p data-i18n="rights">© 2026 FampanAI. All rights reserved.</p>
+    <p style="margin-top:10px">
+      <a href="https://www.youtube.com/@Mr.FamPan" target="_blank">YouTube @Mr.FamPan</a> ·
+      <a href="https://www.tiktok.com/@phamquyet15121" target="_blank">TikTok @phamquyet15121</a> ·
+      <a href="mailto:phamvanquyet.vn.1512@gmail.com" data-i18n="emailUs">Email us</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+const LANGS = [
+  {code:"vi", name:"Tiếng Việt", flag:"vn"},
+  {code:"en", name:"English", flag:"us"},
+  {code:"de", name:"Deutsch", flag:"de"},
+  {code:"fr", name:"Français", flag:"fr"},
+  {code:"es", name:"Español", flag:"es"},
+  {code:"ko", name:"한국어", flag:"kr"},
+  {code:"ja", name:"日本語", flag:"jp"},
+  {code:"zh", name:"中文", flag:"cn"},
+  {code:"hi", name:"हिन्दी", flag:"in"}
+];
+const T = {
+en:{nav_products:"Products",nav_how:"How it works",nav_traction:"Traction",nav_contact:"Contact",badge:"🚀 AI Content Automation Suite — Private Beta",h1:"From idea to <em>finished video</em>, automatically",sub:"FampanAI is a suite of AI-powered tools that helps creators and online sellers produce videos, images and interactive content at scale — from script writing to a publish-ready file.",cta1:"Join the waitlist",cta2:"Explore the tools",productsH:"Our product suite",productsLead:"Seven specialized tools, one goal: automate content production end to end.",p1d:"Creates complete videos automatically from images and a script: scene timing from SRT files, realistic ambient sound per scene, background music and voiceover assembly.",p1t:"Core product",p2d:"A browser extension that automates AI image generation on Google Flow: batch prompts, consistent characters, and one-click result collection for video production.",p2t:"Chrome extension",p3d:"Analyzes competing YouTube channels and videos — titles, transcripts, publishing patterns — and turns the data into actionable content strategy.",p3t:"Analytics",p4d:"Generates interactive quiz and trivia videos with questions, answers, timing and voiceover for education and entertainment channels.",p4t:"Interactive content",p5d:"Simulates world marble racing tournaments with physics-based tracks, commentary and tournament brackets for entertainment content.",p5t:"Entertainment",p6d:"Assists movie review production: scene extraction, script drafting and review video assembly for film channels.",p6t:"Review content",p7d:"Manages multiple browser profiles and connections so creators can run large-scale, organized content workflows across accounts and platforms.",p7t:"Infrastructure",p8d:"Claude API turns raw ideas and sales articles into scene-by-scene scripts with SRT timing, image prompts, titles and hashtags for publishing.",p8t:"Powered by Claude",howH:"How it works",howLead:"The flagship pipeline: idea → video in four steps.",s1t:"STEP 1 — Input",s1d:"An idea, a product description, or your own images and script.",s2t:"STEP 2 — Claude plans",s2d:"Claude API writes the scene-by-scene script, SRT timings and image prompts.",s3t:"STEP 3 — Generation",s3d:"Images are generated or animated, with realistic ambient sound for each scene.",s4t:"STEP 4 — Assembly",s4d:"The final video is rendered with music and timing locked to the script — ready to publish.",tractionH:"Built and tested on real channels",tractionLead:"Every tool is developed and used in production for our own audience before public release.",stat1:"YouTube subscribers — e-commerce tutorials",stat2:"TikTok followers — short-form video",stat3:"production tools in active internal use",clockH:"World clock — real time",clockLead:"Live time in our main markets around the world.",joinH:"Get early access",joinLead:"We are opening a limited beta for creators and online sellers. Leave your email to join the waitlist.",joinBtn:"Join waitlist",emailPh:"Your email address",thanks:"✅ Thank you! You are on the list.",contactH:"Contact us",contactLead:"Questions, partnerships or beta access — reach us anytime.",cEmail:"Email",cPhone:"Phone",cPay:"Payments",cPayD:"Secure checkout via PayPal",cPayB:"Pay with PayPal",rights:"© 2026 FampanAI. All rights reserved.",emailUs:"Email us"},
+vi:{nav_products:"Sản phẩm",nav_how:"Cách hoạt động",nav_traction:"Số liệu",nav_contact:"Liên hệ",badge:"🚀 Bộ công cụ tự động hóa nội dung AI — Bản thử nghiệm",h1:"Từ ý tưởng thành <em>video hoàn chỉnh</em>, hoàn toàn tự động",sub:"FampanAI là bộ công cụ AI giúp nhà sáng tạo nội dung và người bán hàng sản xuất video, hình ảnh và nội dung tương tác với số lượng lớn — từ viết kịch bản đến file sẵn sàng đăng.",cta1:"Đăng ký dùng thử",cta2:"Xem các công cụ",productsH:"Bộ sản phẩm của chúng tôi",productsLead:"Bảy công cụ chuyên biệt, một mục tiêu: tự động hóa sản xuất nội dung từ đầu đến cuối.",p1d:"Tự động tạo video hoàn chỉnh từ hình ảnh và kịch bản: chia cảnh theo file SRT, âm thanh thực tế theo từng cảnh, nhạc nền và ghép giọng đọc.",p1t:"Sản phẩm chính",p2d:"Tiện ích trình duyệt tự động hóa tạo ảnh AI trên Google Flow: nhập prompt hàng loạt, giữ nhân vật đồng nhất, thu kết quả một chạm cho sản xuất video.",p2t:"Tiện ích Chrome",p3d:"Phân tích kênh và video đối thủ trên YouTube — tiêu đề, phụ đề, nhịp đăng — và biến dữ liệu thành chiến lược nội dung.",p3t:"Phân tích",p4d:"Tạo video câu đố tương tác kèm câu hỏi, đáp án, tính giờ và giọng đọc cho kênh giáo dục và giải trí.",p4t:"Nội dung tương tác",p5d:"Mô phỏng giải đua bi thế giới với đường đua vật lý, bình luận và bảng đấu cho nội dung giải trí.",p5t:"Giải trí",p6d:"Hỗ trợ sản xuất video review phim: trích cảnh, soạn kịch bản và ghép video review cho kênh điện ảnh.",p6t:"Nội dung review",p7d:"Quản lý nhiều hồ sơ trình duyệt và kết nối để chạy quy trình nội dung số lượng lớn một cách có tổ chức trên nhiều tài khoản, nền tảng.",p7t:"Hạ tầng",p8d:"Claude API biến ý tưởng thô và bài viết bán hàng thành kịch bản chia cảnh kèm thời gian SRT, prompt tạo ảnh, tiêu đề và hashtag để đăng.",p8t:"Dùng Claude",howH:"Cách hoạt động",howLead:"Quy trình chính: từ ý tưởng đến video trong 4 bước.",s1t:"BƯỚC 1 — Đầu vào",s1d:"Một ý tưởng, mô tả sản phẩm, hoặc ảnh và kịch bản của chính bạn.",s2t:"BƯỚC 2 — Claude lập kế hoạch",s2d:"Claude API viết kịch bản theo cảnh, thời gian SRT và prompt tạo ảnh.",s3t:"BƯỚC 3 — Tạo nội dung",s3d:"Ảnh được tạo hoặc chuyển động hóa, kèm âm thanh thực tế cho từng cảnh.",s4t:"BƯỚC 4 — Ghép hoàn chỉnh",s4d:"Video cuối được dựng với nhạc và thời gian khóa theo kịch bản — sẵn sàng đăng.",tractionH:"Được xây dựng và kiểm chứng trên kênh thật",tractionLead:"Mọi công cụ đều được phát triển và dùng thật cho khán giả của chúng tôi trước khi phát hành.",stat1:"người đăng ký YouTube — hướng dẫn bán hàng",stat2:"người theo dõi TikTok — video ngắn",stat3:"công cụ đang dùng thật trong sản xuất",clockH:"Đồng hồ thế giới — thời gian thực",clockLead:"Giờ trực tiếp tại các thị trường chính của chúng tôi trên thế giới.",joinH:"Đăng ký dùng thử sớm",joinLead:"Chúng tôi đang mở bản thử nghiệm giới hạn cho nhà sáng tạo và người bán hàng. Để lại email để vào danh sách chờ.",joinBtn:"Vào danh sách chờ",emailPh:"Địa chỉ email của bạn",thanks:"✅ Cảm ơn bạn! Bạn đã vào danh sách.",contactH:"Liên hệ",contactLead:"Thắc mắc, hợp tác hoặc đăng ký dùng thử — liên hệ bất cứ lúc nào.",cEmail:"Email",cPhone:"Điện thoại",cPay:"Thanh toán",cPayD:"Thanh toán an toàn qua PayPal",cPayB:"Thanh toán PayPal",rights:"© 2026 FampanAI. Bảo lưu mọi quyền.",emailUs:"Gửi email"},
+de:{nav_products:"Produkte",nav_how:"So funktioniert es",nav_traction:"Reichweite",nav_contact:"Kontakt",badge:"🚀 KI-Suite zur Content-Automatisierung — Private Beta",h1:"Von der Idee zum <em>fertigen Video</em> — automatisch",sub:"FampanAI ist eine Suite KI-gestützter Tools, die Creatorn und Online-Verkäufern hilft, Videos, Bilder und interaktive Inhalte in großem Umfang zu produzieren — vom Skript bis zur veröffentlichungsreifen Datei.",cta1:"Auf die Warteliste",cta2:"Tools entdecken",productsH:"Unsere Produkt-Suite",productsLead:"Sieben spezialisierte Tools, ein Ziel: Content-Produktion durchgängig automatisieren.",p1d:"Erstellt automatisch komplette Videos aus Bildern und Skript: Szenen-Timing aus SRT-Dateien, realistischer Umgebungssound pro Szene, Hintergrundmusik und Voiceover-Montage.",p1t:"Kernprodukt",p2d:"Eine Browser-Erweiterung, die die KI-Bildgenerierung auf Google Flow automatisiert: Batch-Prompts, konsistente Charaktere und Ergebnissammlung mit einem Klick.",p2t:"Chrome-Erweiterung",p3d:"Analysiert konkurrierende YouTube-Kanäle und Videos — Titel, Transkripte, Veröffentlichungsmuster — und verwandelt die Daten in umsetzbare Content-Strategie.",p3t:"Analyse",p4d:"Erzeugt interaktive Quiz- und Trivia-Videos mit Fragen, Antworten, Timing und Voiceover für Bildungs- und Unterhaltungskanäle.",p4t:"Interaktiver Content",p5d:"Simuliert Murmelrenn-Weltturniere mit physikbasierten Strecken, Kommentar und Turnierbäumen für Unterhaltungsinhalte.",p5t:"Unterhaltung",p6d:"Unterstützt die Produktion von Film-Reviews: Szenenextraktion, Skripterstellung und Montage von Review-Videos für Filmkanäle.",p6t:"Review-Content",p7d:"Verwaltet mehrere Browserprofile und Verbindungen, damit Creator große, organisierte Content-Workflows über Konten und Plattformen hinweg betreiben können.",p7t:"Infrastruktur",p8d:"Die Claude API verwandelt rohe Ideen und Verkaufstexte in szenenweise Skripte mit SRT-Timing, Bild-Prompts, Titeln und Hashtags zur Veröffentlichung.",p8t:"Mit Claude",howH:"So funktioniert es",howLead:"Die Haupt-Pipeline: von der Idee zum Video in vier Schritten.",s1t:"SCHRITT 1 — Eingabe",s1d:"Eine Idee, eine Produktbeschreibung oder Ihre eigenen Bilder und Ihr Skript.",s2t:"SCHRITT 2 — Claude plant",s2d:"Die Claude API schreibt das szenenweise Skript, SRT-Timings und Bild-Prompts.",s3t:"SCHRITT 3 — Generierung",s3d:"Bilder werden generiert oder animiert, mit realistischem Umgebungssound für jede Szene.",s4t:"SCHRITT 4 — Montage",s4d:"Das finale Video wird mit Musik und skriptgenauem Timing gerendert — bereit zur Veröffentlichung.",tractionH:"Gebaut und auf echten Kanälen getestet",tractionLead:"Jedes Tool wird vor der Veröffentlichung für unser eigenes Publikum entwickelt und produktiv genutzt.",stat1:"YouTube-Abonnenten — E-Commerce-Tutorials",stat2:"TikTok-Follower — Kurzvideos",stat3:"Produktions-Tools im aktiven internen Einsatz",clockH:"Weltuhr — Echtzeit",clockLead:"Live-Uhrzeit in unseren wichtigsten Märkten weltweit.",joinH:"Frühzugang erhalten",joinLead:"Wir öffnen eine begrenzte Beta für Creator und Verkäufer. Tragen Sie Ihre E-Mail ein und kommen Sie auf die Warteliste.",joinBtn:"Auf die Warteliste",emailPh:"Ihre E-Mail-Adresse",thanks:"✅ Danke! Sie sind auf der Liste.",contactH:"Kontakt",contactLead:"Fragen, Partnerschaften oder Beta-Zugang — jederzeit erreichbar.",cEmail:"E-Mail",cPhone:"Telefon",cPay:"Zahlungen",cPayD:"Sichere Kaufabwicklung über PayPal",cPayB:"Mit PayPal zahlen",rights:"© 2026 FampanAI. Alle Rechte vorbehalten.",emailUs:"E-Mail schreiben"},
+fr:{nav_products:"Produits",nav_how:"Fonctionnement",nav_traction:"Audience",nav_contact:"Contact",badge:"🚀 Suite d'automatisation de contenu IA — Bêta privée",h1:"De l'idée à la <em>vidéo terminée</em>, automatiquement",sub:"FampanAI est une suite d'outils IA qui aide les créateurs et les vendeurs en ligne à produire vidéos, images et contenus interactifs à grande échelle — du script au fichier prêt à publier.",cta1:"Rejoindre la liste d'attente",cta2:"Découvrir les outils",productsH:"Notre suite de produits",productsLead:"Sept outils spécialisés, un seul objectif : automatiser la production de contenu de bout en bout.",p1d:"Crée automatiquement des vidéos complètes à partir d'images et d'un script : minutage des scènes depuis les fichiers SRT, son d'ambiance réaliste par scène, musique de fond et montage de la voix off.",p1t:"Produit principal",p2d:"Une extension de navigateur qui automatise la génération d'images IA sur Google Flow : prompts par lots, personnages cohérents et collecte des résultats en un clic.",p2t:"Extension Chrome",p3d:"Analyse les chaînes et vidéos YouTube concurrentes — titres, transcriptions, rythmes de publication — et transforme les données en stratégie de contenu actionnable.",p3t:"Analytique",p4d:"Génère des vidéos de quiz interactives avec questions, réponses, minutage et voix off pour les chaînes éducatives et de divertissement.",p4t:"Contenu interactif",p5d:"Simule des tournois mondiaux de courses de billes avec pistes physiques, commentaires et tableaux de tournoi pour le divertissement.",p5t:"Divertissement",p6d:"Aide la production de critiques de films : extraction de scènes, rédaction de scripts et montage de vidéos de critique pour les chaînes cinéma.",p6t:"Contenu critique",p7d:"Gère plusieurs profils de navigateur et connexions pour exécuter des flux de contenu à grande échelle, organisés sur plusieurs comptes et plateformes.",p7t:"Infrastructure",p8d:"L'API Claude transforme idées brutes et articles de vente en scripts scène par scène avec minutage SRT, prompts d'images, titres et hashtags pour la publication.",p8t:"Propulsé par Claude",howH:"Comment ça marche",howLead:"Le pipeline principal : de l'idée à la vidéo en quatre étapes.",s1t:"ÉTAPE 1 — Entrée",s1d:"Une idée, une description de produit, ou vos propres images et script.",s2t:"ÉTAPE 2 — Claude planifie",s2d:"L'API Claude écrit le script scène par scène, les minutages SRT et les prompts d'images.",s3t:"ÉTAPE 3 — Génération",s3d:"Les images sont générées ou animées, avec un son d'ambiance réaliste pour chaque scène.",s4t:"ÉTAPE 4 — Assemblage",s4d:"La vidéo finale est rendue avec musique et minutage verrouillé sur le script — prête à publier.",tractionH:"Conçu et testé sur de vraies chaînes",tractionLead:"Chaque outil est développé et utilisé en production pour notre propre audience avant sa sortie publique.",stat1:"abonnés YouTube — tutoriels e-commerce",stat2:"abonnés TikTok — vidéos courtes",stat3:"outils de production en usage interne actif",clockH:"Horloge mondiale — temps réel",clockLead:"L'heure en direct dans nos principaux marchés dans le monde.",joinH:"Accès anticipé",joinLead:"Nous ouvrons une bêta limitée pour les créateurs et vendeurs. Laissez votre e-mail pour rejoindre la liste d'attente.",joinBtn:"Rejoindre la liste",emailPh:"Votre adresse e-mail",thanks:"✅ Merci ! Vous êtes sur la liste.",contactH:"Contact",contactLead:"Questions, partenariats ou accès bêta — joignables à tout moment.",cEmail:"E-mail",cPhone:"Téléphone",cPay:"Paiements",cPayD:"Paiement sécurisé via PayPal",cPayB:"Payer avec PayPal",rights:"© 2026 FampanAI. Tous droits réservés.",emailUs:"Nous écrire"},
+es:{nav_products:"Productos",nav_how:"Cómo funciona",nav_traction:"Audiencia",nav_contact:"Contacto",badge:"🚀 Suite de automatización de contenido con IA — Beta privada",h1:"De la idea al <em>video terminado</em>, automáticamente",sub:"FampanAI es una suite de herramientas con IA que ayuda a creadores y vendedores en línea a producir videos, imágenes y contenido interactivo a gran escala, desde el guion hasta el archivo listo para publicar.",cta1:"Unirse a la lista de espera",cta2:"Explorar las herramientas",productsH:"Nuestra suite de productos",productsLead:"Siete herramientas especializadas, un objetivo: automatizar la producción de contenido de principio a fin.",p1d:"Crea videos completos automáticamente a partir de imágenes y un guion: tiempos de escena desde archivos SRT, sonido ambiental realista por escena, música de fondo y montaje de voz en off.",p1t:"Producto principal",p2d:"Una extensión de navegador que automatiza la generación de imágenes IA en Google Flow: prompts por lotes, personajes consistentes y recopilación de resultados con un clic.",p2t:"Extensión de Chrome",p3d:"Analiza canales y videos de YouTube de la competencia — títulos, transcripciones, patrones de publicación — y convierte los datos en estrategia de contenido accionable.",p3t:"Analítica",p4d:"Genera videos de cuestionarios interactivos con preguntas, respuestas, tiempos y voz en off para canales educativos y de entretenimiento.",p4t:"Contenido interactivo",p5d:"Simula torneos mundiales de carreras de canicas con pistas basadas en física, comentarios y cuadros de torneo para entretenimiento.",p5t:"Entretenimiento",p6d:"Ayuda a producir reseñas de películas: extracción de escenas, redacción de guiones y montaje de videos de reseña para canales de cine.",p6t:"Contenido de reseñas",p7d:"Gestiona múltiples perfiles de navegador y conexiones para ejecutar flujos de contenido a gran escala, organizados en cuentas y plataformas.",p7t:"Infraestructura",p8d:"La API de Claude convierte ideas y artículos de venta en guiones escena por escena con tiempos SRT, prompts de imagen, títulos y hashtags para publicar.",p8t:"Con Claude",howH:"Cómo funciona",howLead:"El flujo principal: de la idea al video en cuatro pasos.",s1t:"PASO 1 — Entrada",s1d:"Una idea, una descripción de producto, o tus propias imágenes y guion.",s2t:"PASO 2 — Claude planifica",s2d:"La API de Claude escribe el guion escena por escena, los tiempos SRT y los prompts de imagen.",s3t:"PASO 3 — Generación",s3d:"Las imágenes se generan o animan, con sonido ambiental realista para cada escena.",s4t:"PASO 4 — Montaje",s4d:"El video final se renderiza con música y tiempos ajustados al guion, listo para publicar.",tractionH:"Creado y probado en canales reales",tractionLead:"Cada herramienta se desarrolla y se usa en producción para nuestra propia audiencia antes de su lanzamiento público.",stat1:"suscriptores de YouTube — tutoriales de comercio electrónico",stat2:"seguidores de TikTok — videos cortos",stat3:"herramientas de producción en uso interno activo",clockH:"Reloj mundial — tiempo real",clockLead:"Hora en vivo en nuestros principales mercados del mundo.",joinH:"Acceso anticipado",joinLead:"Estamos abriendo una beta limitada para creadores y vendedores. Deja tu correo para unirte a la lista de espera.",joinBtn:"Unirme a la lista",emailPh:"Tu correo electrónico",thanks:"✅ ¡Gracias! Ya estás en la lista.",contactH:"Contacto",contactLead:"Preguntas, alianzas o acceso beta: escríbenos cuando quieras.",cEmail:"Correo",cPhone:"Teléfono",cPay:"Pagos",cPayD:"Pago seguro con PayPal",cPayB:"Pagar con PayPal",rights:"© 2026 FampanAI. Todos los derechos reservados.",emailUs:"Escríbenos"},
+ko:{nav_products:"제품",nav_how:"작동 방식",nav_traction:"채널 지표",nav_contact:"문의",badge:"🚀 AI 콘텐츠 자동화 스위트 — 비공개 베타",h1:"아이디어에서 <em>완성된 영상</em>까지, 자동으로",sub:"FampanAI는 크리에이터와 온라인 판매자가 대본 작성부터 게시 가능한 파일까지, 영상·이미지·인터랙티브 콘텐츠를 대규모로 제작할 수 있게 돕는 AI 도구 모음입니다.",cta1:"대기자 명단 등록",cta2:"도구 살펴보기",productsH:"제품 라인업",productsLead:"7개의 전문 도구, 하나의 목표: 콘텐츠 제작 전 과정을 자동화합니다.",p1d:"이미지와 대본으로 완성 영상을 자동 제작합니다: SRT 파일 기반 장면 타이밍, 장면별 실제 환경음, 배경 음악, 내레이션 편집까지.",p1t:"핵심 제품",p2d:"Google Flow에서 AI 이미지 생성을 자동화하는 브라우저 확장 프로그램: 일괄 프롬프트, 일관된 캐릭터, 원클릭 결과 수집.",p2t:"Chrome 확장 프로그램",p3d:"경쟁 YouTube 채널과 영상을 분석합니다 — 제목, 자막, 업로드 패턴을 데이터 기반 콘텐츠 전략으로 전환합니다.",p3t:"분석",p4d:"질문, 정답, 타이밍, 내레이션을 갖춘 인터랙티브 퀴즈 영상을 교육·엔터테인먼트 채널용으로 생성합니다.",p4t:"인터랙티브 콘텐츠",p5d:"물리 기반 트랙, 해설, 토너먼트 대진표로 세계 구슬 레이싱 대회를 시뮬레이션합니다.",p5t:"엔터테인먼트",p6d:"영화 리뷰 제작을 지원합니다: 장면 추출, 대본 작성, 영화 채널용 리뷰 영상 편집.",p6t:"리뷰 콘텐츠",p7d:"여러 브라우저 프로필과 연결을 관리해 계정과 플랫폼 전반에서 대규모 콘텐츠 워크플로를 체계적으로 운영합니다.",p7t:"인프라",p8d:"Claude API가 원시 아이디어와 판매 글을 SRT 타이밍이 포함된 장면별 대본, 이미지 프롬프트, 제목, 해시태그로 변환합니다.",p8t:"Claude 기반",howH:"작동 방식",howLead:"대표 파이프라인: 아이디어에서 영상까지 4단계.",s1t:"1단계 — 입력",s1d:"아이디어, 제품 설명, 또는 직접 준비한 이미지와 대본.",s2t:"2단계 — Claude 기획",s2d:"Claude API가 장면별 대본, SRT 타이밍, 이미지 프롬프트를 작성합니다.",s3t:"3단계 — 생성",s3d:"장면별 실제 환경음과 함께 이미지를 생성하거나 애니메이션화합니다.",s4t:"4단계 — 조립",s4d:"음악과 대본에 맞춘 타이밍으로 최종 영상을 렌더링해 게시 준비를 마칩니다.",tractionH:"실제 채널에서 만들고 검증했습니다",tractionLead:"모든 도구는 공개 출시 전에 자체 시청자를 위해 개발되고 실제 운영에 사용됩니다.",stat1:"YouTube 구독자 — 이커머스 튜토리얼",stat2:"TikTok 팔로워 — 숏폼 영상",stat3:"실무에 사용 중인 제작 도구",clockH:"세계 시계 — 실시간",clockLead:"전 세계 주요 시장의 실시간 시간입니다.",joinH:"얼리 액세스",joinLead:"크리에이터와 판매자를 위한 제한적 베타를 엽니다. 이메일을 남기고 대기자 명단에 등록하세요.",joinBtn:"대기자 등록",emailPh:"이메일 주소",thanks:"✅ 감사합니다! 명단에 등록되었습니다.",contactH:"문의하기",contactLead:"질문, 제휴, 베타 액세스 — 언제든 연락하세요.",cEmail:"이메일",cPhone:"전화",cPay:"결제",cPayD:"PayPal 안전 결제",cPayB:"PayPal로 결제",rights:"© 2026 FampanAI. 모든 권리 보유.",emailUs:"이메일 보내기"},
+ja:{nav_products:"製品",nav_how:"仕組み",nav_traction:"実績",nav_contact:"お問い合わせ",badge:"🚀 AIコンテンツ自動化スイート — プライベートベータ",h1:"アイデアから<em>完成動画</em>まで、自動で",sub:"FampanAIは、クリエイターやオンライン販売者が台本作成から公開可能なファイルまで、動画・画像・インタラクティブコンテンツを大規模に制作できるAIツール群です。",cta1:"ウェイトリストに登録",cta2:"ツールを見る",productsH:"製品ラインナップ",productsLead:"7つの専門ツール、1つの目標：コンテンツ制作をエンドツーエンドで自動化。",p1d:"画像と台本から完成動画を自動生成：SRTファイルによるシーンタイミング、シーンごとのリアルな環境音、背景音楽、ナレーション編集まで。",p1t:"主力製品",p2d:"Google FlowでのAI画像生成を自動化するブラウザ拡張機能：一括プロンプト、一貫したキャラクター、ワンクリックで結果収集。",p2t:"Chrome拡張機能",p3d:"競合YouTubeチャンネルと動画を分析 — タイトル、文字起こし、投稿パターンを実用的なコンテンツ戦略に変換します。",p3t:"分析",p4d:"質問、回答、タイミング、ナレーション付きのインタラクティブなクイズ動画を教育・エンタメチャンネル向けに生成。",p4t:"インタラクティブ",p5d:"物理演算トラック、実況、トーナメント表で世界のビー玉レース大会をシミュレーション。",p5t:"エンタメ",p6d:"映画レビュー制作を支援：シーン抽出、台本作成、映画チャンネル向けレビュー動画の編集。",p6t:"レビュー",p7d:"複数のブラウザプロファイルと接続を管理し、アカウントやプラットフォームをまたいだ大規模なコンテンツ運用を整理します。",p7t:"インフラ",p8d:"Claude APIが生のアイデアや販売記事を、SRTタイミング付きのシーン別台本、画像プロンプト、タイトル、ハッシュタグに変換します。",p8t:"Claude搭載",howH:"仕組み",howLead:"主力パイプライン：アイデアから動画まで4ステップ。",s1t:"ステップ1 — 入力",s1d:"アイデア、商品説明、またはご自身の画像と台本。",s2t:"ステップ2 — Claudeが設計",s2d:"Claude APIがシーン別台本、SRTタイミング、画像プロンプトを作成します。",s3t:"ステップ3 — 生成",s3d:"シーンごとのリアルな環境音とともに画像を生成・アニメーション化します。",s4t:"ステップ4 — 組み立て",s4d:"音楽と台本に合わせたタイミングで最終動画をレンダリングし、公開準備完了。",tractionH:"実チャンネルで構築・検証済み",tractionLead:"すべてのツールは公開前に自社視聴者向けに開発され、実際に運用されています。",stat1:"YouTube登録者 — ECチュートリアル",stat2:"TikTokフォロワー — ショート動画",stat3:"実運用中の制作ツール",clockH:"世界時計 — リアルタイム",clockLead:"世界各地の主要市場における現在の時刻です。",joinH:"早期アクセス",joinLead:"クリエイターと販売者向けに限定ベータを開始します。メールアドレスを登録してウェイトリストへどうぞ。",joinBtn:"登録する",emailPh:"メールアドレス",thanks:"✅ ありがとうございます！登録完了しました。",contactH:"お問い合わせ",contactLead:"ご質問、提携、ベータアクセスなど、いつでもご連絡ください。",cEmail:"メール",cPhone:"電話",cPay:"お支払い",cPayD:"PayPalによる安全な決済",cPayB:"PayPalで支払う",rights:"© 2026 FampanAI. All rights reserved.",emailUs:"メールする"},
+zh:{nav_products:"产品",nav_how:"工作方式",nav_traction:"频道数据",nav_contact:"联系我们",badge:"🚀 AI 内容自动化套件 — 内测中",h1:"从想法到<em>成品视频</em>，全自动完成",sub:"FampanAI 是一套 AI 工具，帮助创作者和在线卖家大规模制作视频、图片和互动内容——从写脚本到可发布文件，一气呵成。",cta1:"加入候补名单",cta2:"查看工具",productsH:"产品套件",productsLead:"七款专业工具，一个目标：端到端自动化内容生产。",p1d:"根据图片和脚本自动生成完整视频：基于 SRT 文件的场景时间、每场景真实环境音、背景音乐和配音合成。",p1t:"核心产品",p2d:"在 Google Flow 上自动化 AI 图片生成的浏览器扩展：批量提示词、角色一致、一键收集结果用于视频制作。",p2t:"Chrome 扩展",p3d:"分析竞争对手的 YouTube 频道和视频——标题、字幕、发布规律——并将数据转化为可执行的内容策略。",p3t:"数据分析",p4d:"为教育和娱乐频道生成带问题、答案、计时和配音的互动问答视频。",p4t:"互动内容",p5d:"模拟世界弹珠竞速锦标赛：物理赛道、解说和淘汰赛对阵表，服务娱乐内容。",p5t:"娱乐",p6d:"协助电影评论制作：场景提取、脚本撰写和影评视频合成，服务电影频道。",p6t:"评论内容",p7d:"管理多个浏览器配置文件和连接，帮助创作者在多账户、多平台上运行大规模、有条理的内容工作流。",p7t:"基础设施",p8d:"Claude API 将原始想法和销售文章转化为带 SRT 时间的分场景脚本、图片提示词、标题和发布标签。",p8t:"由 Claude 驱动",howH:"工作方式",howLead:"旗舰流程：从想法到视频只需四步。",s1t:"第一步 — 输入",s1d:"一个想法、产品描述，或您自己的图片和脚本。",s2t:"第二步 — Claude 策划",s2d:"Claude API 编写分场景脚本、SRT 时间和图片提示词。",s3t:"第三步 — 生成",s3d:"生成或动画化图片，并为每个场景配上真实环境音。",s4t:"第四步 — 合成",s4d:"按脚本时间渲染带音乐的最终视频，随时可发布。",tractionH:"在真实频道上打造并验证",tractionLead:"每款工具在公开发布前，都先为我们自己的受众开发并投入实际生产。",stat1:"YouTube 订阅者 — 电商教程",stat2:"TikTok 粉丝 — 短视频",stat3:"正在内部使用的生产工具",clockH:"世界时钟 — 实时",clockLead:"我们全球主要市场的实时时间。",joinH:"抢先体验",joinLead:"我们正在为创作者和卖家开放限量内测。留下您的邮箱加入候补名单。",joinBtn:"加入名单",emailPh:"您的邮箱地址",thanks:"✅ 谢谢！您已加入名单。",contactH:"联系我们",contactLead:"问题、合作或内测申请——随时联系我们。",cEmail:"邮箱",cPhone:"电话",cPay:"支付",cPayD:"通过 PayPal 安全付款",cPayB:"用 PayPal 支付",rights:"© 2026 FampanAI. 保留所有权利。",emailUs:"发送邮件"},
+hi:{nav_products:"उत्पाद",nav_how:"कैसे काम करता है",nav_traction:"चैनल आँकड़े",nav_contact:"संपर्क",badge:"🚀 AI कंटेंट ऑटोमेशन सूट — प्राइवेट बीटा",h1:"आइडिया से <em>तैयार वीडियो</em> तक, अपने आप",sub:"FampanAI AI टूल्स का एक सूट है जो क्रिएटर्स और ऑनलाइन विक्रेताओं को बड़े पैमाने पर वीडियो, इमेज और इंटरैक्टिव कंटेंट बनाने में मदद करता है — स्क्रिप्ट लिखने से लेकर प्रकाशन-योग्य फ़ाइल तक।",cta1:"वेटलिस्ट में शामिल हों",cta2:"टूल्स देखें",productsH:"हमारा प्रोडक्ट सूट",productsLead:"सात विशेष टूल, एक लक्ष्य: कंटेंट निर्माण को शुरू से अंत तक ऑटोमेट करना।",p1d:"इमेज और स्क्रिप्ट से अपने आप पूरे वीडियो बनाता है: SRT फ़ाइलों से सीन टाइमिंग, हर सीन के लिए असली परिवेश ध्वनि, पृष्ठभूमि संगीत और वॉयसओवर संयोजन।",p1t:"मुख्य उत्पाद",p2d:"एक ब्राउज़र एक्सटेंशन जो Google Flow पर AI इमेज निर्माण को ऑटोमेट करता है: बैच प्रॉम्प्ट, सुसंगत कैरेक्टर और एक क्लिक में परिणाम संग्रह।",p2t:"Chrome एक्सटेंशन",p3d:"प्रतिस्पर्धी YouTube चैनलों और वीडियो का विश्लेषण करता है — शीर्षक, ट्रांसक्रिप्ट, प्रकाशन पैटर्न — और डेटा को व्यावहारिक कंटेंट रणनीति में बदलता है।",p3t:"एनालिटिक्स",p4d:"शिक्षा और मनोरंजन चैनलों के लिए प्रश्न, उत्तर, टाइमिंग और वॉयसओवर के साथ इंटरैक्टिव क्विज़ वीडियो बनाता है।",p4t:"इंटरैक्टिव कंटेंट",p5d:"मनोरंजन कंटेंट के लिए भौतिकी-आधारित ट्रैक, कमेंट्री और टूर्नामेंट ब्रैकेट के साथ विश्व मार्बल रेसिंग टूर्नामेंट का सिमुलेशन करता है।",p5t:"मनोरंजन",p6d:"फ़िल्म समीक्षा निर्माण में सहायता करता है: सीन निष्कर्षण, स्क्रिप्ट लेखन और फ़िल्म चैनलों के लिए समीक्षा वीडियो संयोजन।",p6t:"समीक्षा कंटेंट",p7d:"कई ब्राउज़र प्रोफ़ाइल और कनेक्शन प्रबंधित करता है ताकि क्रिएटर्स खातों और प्लेटफ़ॉर्म पर बड़े पैमाने के संगठित कंटेंट वर्कफ़्लो चला सकें।",p7t:"इंफ्रास्ट्रक्चर",p8d:"Claude API कच्चे आइडिया और बिक्री लेखों को SRT टाइमिंग के साथ सीन-दर-सीन स्क्रिप्ट, इमेज प्रॉम्प्ट, शीर्षक और हैशटैग में बदलता है।",p8t:"Claude द्वारा संचालित",howH:"यह कैसे काम करता है",howLead:"मुख्य पाइपलाइन: आइडिया से वीडियो तक चार चरणों में।",s1t:"चरण 1 — इनपुट",s1d:"एक आइडिया, उत्पाद विवरण, या आपकी अपनी इमेज और स्क्रिप्ट।",s2t:"चरण 2 — Claude योजना बनाता है",s2d:"Claude API सीन-दर-सीन स्क्रिप्ट, SRT टाइमिंग और इमेज प्रॉम्प्ट लिखता है।",s3t:"चरण 3 — निर्माण",s3d:"हर सीन के लिए असली परिवेश ध्वनि के साथ इमेज बनाई या एनिमेट की जाती हैं।",s4t:"चरण 4 — संयोजन",s4d:"अंतिम वीडियो संगीत और स्क्रिप्ट के अनुसार तय टाइमिंग के साथ रेंडर होता है — प्रकाशित करने के लिए तैयार।",tractionH:"असली चैनलों पर बना और परखा गया",tractionLead:"हर टूल सार्वजनिक रिलीज़ से पहले हमारे अपने दर्शकों के लिए विकसित और उत्पादन में उपयोग किया जाता है।",stat1:"YouTube सब्सक्राइबर — ई-कॉमर्स ट्यूटोरियल",stat2:"TikTok फ़ॉलोअर्स — शॉर्ट-फ़ॉर्म वीडियो",stat3:"सक्रिय आंतरिक उपयोग में उत्पादन टूल",clockH:"विश्व घड़ी — रीयल टाइम",clockLead:"दुनिया भर के हमारे मुख्य बाज़ारों में लाइव समय।",joinH:"अर्ली एक्सेस पाएं",joinLead:"हम क्रिएटर्स और विक्रेताओं के लिए सीमित बीटा खोल रहे हैं। वेटलिस्ट में शामिल होने के लिए अपना ईमेल छोड़ें।",joinBtn:"वेटलिस्ट में शामिल हों",emailPh:"आपका ईमेल पता",thanks:"✅ धन्यवाद! आप सूची में हैं।",contactH:"संपर्क करें",contactLead:"प्रश्न, साझेदारी या बीटा एक्सेस — कभी भी संपर्क करें।",cEmail:"ईमेल",cPhone:"फ़ोन",cPay:"भुगतान",cPayD:"PayPal के माध्यम से सुरक्षित भुगतान",cPayB:"PayPal से भुगतान करें",rights:"© 2026 FampanAI. सर्वाधिकार सुरक्षित।",emailUs:"ईमेल करें"}
+};
+let cur = localStorage.getItem("fampan_lang") || ((navigator.language||"en").slice(0,2));
+if(!T[cur]) cur = "en";
+const list = document.getElementById("langList");
+LANGS.forEach(l=>{
+  const b=document.createElement("button");
+  b.innerHTML='<img src="https://flagcdn.com/w40/'+l.flag+'.png" alt=""> '+l.name;
+  b.onclick=()=>{ setLang(l.code); document.getElementById("langList").classList.remove("open"); };
+  list.appendChild(b);
+});
+function toggleLangList(e){ e.stopPropagation(); document.getElementById("langList").classList.toggle("open"); }
+document.addEventListener("click",()=>document.getElementById("langList").classList.remove("open"));
+function setLang(code){
+  cur = code; localStorage.setItem("fampan_lang", code);
+  const meta = LANGS.find(l=>l.code===code);
+  document.getElementById("curFlag").src = "https://flagcdn.com/w40/"+meta.flag+".png";
+  document.getElementById("curLang").textContent = meta.name;
+  document.documentElement.lang = code;
+  const d = T[code];
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ const k=el.getAttribute("data-i18n"); if(d[k]) el.textContent=d[k]; });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{ const k=el.getAttribute("data-i18n-html"); if(d[k]) el.innerHTML=d[k]; });
+  const em = document.getElementById("emailPh"); if(em) em.placeholder = d.emailPh;
+  tickClocks();
+}
+/* World clock */
+const CITIES = [
+  {city:"Ho Chi Minh City", country:"Vietnam", flag:"vn", tz:"Asia/Ho_Chi_Minh"},
+  {city:"New York", country:"USA", flag:"us", tz:"America/New_York"},
+  {city:"London", country:"United Kingdom", flag:"gb", tz:"Europe/London"},
+  {city:"Berlin", country:"Germany", flag:"de", tz:"Europe/Berlin"},
+  {city:"Paris", country:"France", flag:"fr", tz:"Europe/Paris"},
+  {city:"Madrid", country:"Spain", flag:"es", tz:"Europe/Madrid"},
+  {city:"Seoul", country:"South Korea", flag:"kr", tz:"Asia/Seoul"},
+  {city:"Tokyo", country:"Japan", flag:"jp", tz:"Asia/Tokyo"},
+  {city:"Beijing", country:"China", flag:"cn", tz:"Asia/Shanghai"},
+  {city:"New Delhi", country:"India", flag:"in", tz:"Asia/Kolkata"}
+];
+const clockBox = document.getElementById("clocks");
+CITIES.forEach((c,i)=>{
+  const div=document.createElement("div"); div.className="clock";
+  div.innerHTML='<img src="https://flagcdn.com/w80/'+c.flag+'.png" alt="'+c.country+'"><div class="city">'+c.city+'</div><div class="time" id="ct'+i+'">--:--:--</div><div class="date" id="cd'+i+'">'+c.country+'</div>';
+  clockBox.appendChild(div);
+});
+const LOCALES = {vi:"vi-VN",en:"en-GB",de:"de-DE",fr:"fr-FR",es:"es-ES",ko:"ko-KR",ja:"ja-JP",zh:"zh-CN",hi:"hi-IN"};
+function tickClocks(){
+  const loc = LOCALES[cur] || "en-GB";
+  const now = new Date();
+  CITIES.forEach((c,i)=>{
+    try{
+      const tf = new Intl.DateTimeFormat(loc,{timeZone:c.tz,hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false});
+      const df = new Intl.DateTimeFormat(loc,{timeZone:c.tz,weekday:"short",day:"2-digit",month:"2-digit",year:"numeric"});
+      document.getElementById("ct"+i).textContent = tf.format(now);
+      document.getElementById("cd"+i).textContent = c.country+" · "+df.format(now);
+    }catch(e){}
+  });
+}
+setInterval(tickClocks, 1000);
+setLang(cur);
+tickClocks();
+</script>
+</body>
+</html>
